@@ -59,7 +59,11 @@
             {% for post in profile_user.post_set.all %}
             <div class="bg-white rounded-lg shadow p-6">
                 <div class="flex items-center mb-4">
-                    <img src="https://via.placeholder.com/40" alt="" class="rounded-full mr-2">
+                    {% if post.author.profile.image %}
+                        <img src="{{ post.author.profile.image.url }}" alt="" class="w-10 h-10 rounded-full mr-2">
+                    {% else %}
+                        <img src="https://via.placeholder.com/40" alt="" class="rounded-full mr-2">
+                    {% endif %}
                     <div>
                         <div class="font-bold">{{ post.author.username }}</div>
                         <div class="text-gray-500 text-sm">{{ post.created_at|timesince }} ago</div>
@@ -69,10 +73,39 @@
                 {% if post.image %}
                     <img src="{{ post.image.url }}" alt="Post image" class="rounded mb-4">
                 {% endif %}
+                
+                <!-- Share Buttons -->
+                <div class="border-t border-b py-3 my-3">
+                    <div class="flex space-x-4">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}{% url 'social:post_detail' pk=post.id %}"
+                           target="_blank"
+                           class="text-blue-600 hover:text-blue-700">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}{% url 'social:post_detail' pk=post.id %}&text={{ post.content|truncatechars:100|urlencode }}"
+                           target="_blank"
+                           class="text-blue-400 hover:text-blue-500">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}{% url 'social:post_detail' pk=post.id %}"
+                           target="_blank"
+                           class="text-blue-800 hover:text-blue-900">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://wa.me/?text={{ post.content|truncatechars:100|urlencode }}%20{{ request.build_absolute_uri|urlencode }}{% url 'social:post_detail' pk=post.id|urlencode %}"
+                           target="_blank"
+                           class="text-green-600 hover:text-green-700">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+
                 <div class="flex items-center text-gray-500 text-sm">
                     <span>{{ post.likes.count }} likes</span>
                     <span class="mx-2">•</span>
                     <span>{{ post.comments.count }} comments</span>
+                    <span class="mx-2">•</span>
+                    <a href="{% url 'social:post_detail' pk=post.id %}" class="text-blue-500 hover:underline">View Details</a>
                 </div>
             </div>
             {% empty %}

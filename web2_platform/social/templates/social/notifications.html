@@ -1,0 +1,57 @@
+{% extends 'social/base.html' %}
+
+{% block title %}Notifications - SocialFare{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto">
+        <h2 class="text-2xl font-bold mb-6">Notifications</h2>
+        
+        <div class="space-y-4">
+            {% for notification in notifications %}
+            <div class="bg-white rounded-lg shadow p-4 {% if not notification.is_read %}border-l-4 border-blue-500{% endif %}">
+                <div class="flex items-center">
+                    {% if notification.sender.profile.image %}
+                        <img src="{{ notification.sender.profile.image.url }}" alt="" class="w-10 h-10 rounded-full mr-3">
+                    {% else %}
+                        <img src="https://via.placeholder.com/40" alt="" class="w-10 h-10 rounded-full mr-3">
+                    {% endif %}
+                    
+                    <div class="flex-1">
+                        <p class="text-gray-800">
+                            <a href="{% url 'social:profile_detail' username=notification.sender.username %}" 
+                               class="font-bold hover:underline">
+                                {{ notification.sender.username }}
+                            </a>
+                            {% if notification.notification_type == 'friend_request' %}
+                                sent you a friend request
+                            {% elif notification.notification_type == 'friend_accept' %}
+                                accepted your friend request
+                            {% elif notification.notification_type == 'post_like' %}
+                                liked your post
+                            {% elif notification.notification_type == 'post_comment' %}
+                                commented on your post
+                            {% elif notification.notification_type == 'new_post' %}
+                                added a new post
+                            {% endif %}
+                        </p>
+                        <p class="text-gray-500 text-sm">{{ notification.created_at|timesince }} ago</p>
+                    </div>
+                    
+                    {% if notification.post %}
+                        <a href="{% url 'social:post_detail' pk=notification.post.id %}" 
+                           class="text-blue-500 hover:underline">
+                            View Post
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="bg-white rounded-lg shadow p-6 text-center text-gray-500">
+                No notifications yet
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

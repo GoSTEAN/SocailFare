@@ -8,6 +8,16 @@
         <div class="bg-white rounded-lg shadow p-6">
             <h1 class="text-2xl font-bold mb-6">Edit Profile</h1>
             
+            {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                    <div class="p-4 {% if message.tags == 'success' %}bg-green-100 text-green-700{% else %}bg-red-100 text-red-700{% endif %} rounded">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 
@@ -16,10 +26,13 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2">
                         Profile Picture
                     </label>
+                    {% if profile.image %}
+                        <img src="{{ profile.image.url }}" alt="Current profile picture" class="w-32 h-32 rounded-full mb-2">
+                    {% endif %}
                     <input type="file" 
-                          name="profile_image" 
-                          accept="image/*"
-                          class="w-full p-2 border rounded">
+                           name="profile_image" 
+                           accept="image/*"
+                           class="w-full p-2 border rounded">
                 </div>
 
                 <!-- Name -->
@@ -28,9 +41,9 @@
                         First Name
                     </label>
                     <input type="text" 
-                          name="first_name" 
-                          value="{{ user.first_name }}"
-                          class="w-full p-2 border rounded">
+                           name="first_name" 
+                           value="{{ user.first_name }}"
+                           class="w-full p-2 border rounded">
                 </div>
 
                 <div class="mb-6">
@@ -38,9 +51,9 @@
                         Last Name
                     </label>
                     <input type="text" 
-                          name="last_name" 
-                          value="{{ user.last_name }}"
-                          class="w-full p-2 border rounded">
+                           name="last_name" 
+                           value="{{ user.last_name }}"
+                           class="w-full p-2 border rounded">
                 </div>
 
                 <!-- Bio -->
@@ -50,7 +63,7 @@
                     </label>
                     <textarea name="bio" 
                               rows="4"
-                              class="w-full p-2 border rounded">{{ user.profile.bio }}</textarea>
+                              class="w-full p-2 border rounded">{{ profile.bio }}</textarea>
                 </div>
 
                 <!-- Submit Button -->
