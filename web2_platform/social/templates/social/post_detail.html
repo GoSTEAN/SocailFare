@@ -1,0 +1,33 @@
+{% extends 'social/base.html' %}
+
+{% block title %}Post Detail{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white p-6 rounded-lg shadow">
+        <div class="flex items-center mb-4">
+            <span class="font-bold">{{ post.author.username }}</span>
+            <span class="text-gray-500 ml-2">{{ post.created_at|timesince }} ago</span>
+        </div>
+        
+        <p class="mb-4">{{ post.content }}</p>
+        
+        {% if post.image %}
+            <img src="{{ post.image.url }}" alt="Post image" class="mb-4 rounded">
+        {% endif %}
+        
+        <div class="flex items-center text-gray-500">
+            <span>{{ post.likes.count }} likes</span>
+            <span class="mx-2">•</span>
+            <span>{{ post.comments.count }} comments</span>
+            {% if post.twitter_post_id %}
+                <a href="https://twitter.com/i/web/status/{{ post.twitter_post_id }}" 
+                  target="_blank" 
+                  class="ml-auto text-blue-400 hover:text-blue-600">
+                    <i class="fab fa-twitter"></i> View on Twitter
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

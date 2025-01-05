@@ -1,0 +1,67 @@
+{% extends 'social/base.html' %}
+
+{% block title %}Edit Profile - SocialFare{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto">
+        <div class="bg-white rounded-lg shadow p-6">
+            <h1 class="text-2xl font-bold mb-6">Edit Profile</h1>
+            
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- Profile Image -->
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                        Profile Picture
+                    </label>
+                    <input type="file" 
+                          name="profile_image" 
+                          accept="image/*"
+                          class="w-full p-2 border rounded">
+                </div>
+
+                <!-- Name -->
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                        First Name
+                    </label>
+                    <input type="text" 
+                          name="first_name" 
+                          value="{{ user.first_name }}"
+                          class="w-full p-2 border rounded">
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                        Last Name
+                    </label>
+                    <input type="text" 
+                          name="last_name" 
+                          value="{{ user.last_name }}"
+                          class="w-full p-2 border rounded">
+                </div>
+
+                <!-- Bio -->
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                        Bio
+                    </label>
+                    <textarea name="bio" 
+                              rows="4"
+                              class="w-full p-2 border rounded">{{ user.profile.bio }}</textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex justify-end">
+                    <button type="submit" 
+                            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

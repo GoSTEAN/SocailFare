@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html class="h-full">
+<head>
+    <title>{% block title %}SocialFare{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Add Font Awesome for social icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-blue-600 p-4 text-white">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="{% url 'social:landing' %}" class="text-2xl font-bold">SocialFare</a>
+            <div>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'social:post_create' %}" class="bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded">New Post</a>
+                    <span class="ml-4">Welcome, {{ user.username }}</span>
+                    <form action="{% url 'logout' %}" method="post" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="ml-4 text-white hover:underline">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="mr-4">Login</a>
+                    <a href="{% url 'register' %}">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-12">
+        <!-- Main Footer -->
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About Section -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About SocialFare</h3>
+                    <p class="text-gray-400">
+                        Connecting students, sharing opportunities, and building a stronger school community together.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="{% url 'social:landing' %}" class="hover:text-white">Home</a></li>
+                        <li><a href="#" class="hover:text-white">About Us</a></li>
+                        <li><a href="#" class="hover:text-white">Contact</a></li>
+                        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><i class="fas fa-envelope mr-2"></i> contact@socialfare.com</li>
+                        <li><i class="fas fa-phone mr-2"></i> +234 123 567 8900</li>
+                        <li><i class="fas fa-map-marker-alt mr-2"></i> Abuja, Nigeria</li>
+                    </ul>
+                </div>
+
+                <!-- Social Links -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copyright -->
+        <div class="bg-gray-900 py-4">
+            <div class="container mx-auto px-4 text-center text-gray-400">
+                <p>© 2025 SocialFare. Developed by TechHunter. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

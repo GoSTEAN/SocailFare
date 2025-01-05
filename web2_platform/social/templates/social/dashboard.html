@@ -1,0 +1,81 @@
+{% extends 'social/base.html' %}
+
+{% block title %}Dashboard - SocialFare{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4">
+    <div class="flex flex-wrap -mx-4">
+        <!-- Left Sidebar -->
+        <div class="w-full md:w-1/4 px-4 mb-4">
+            <div class="bg-white rounded-lg shadow p-4">
+                <div class="text-center mb-4">
+                    <img src="https://via.placeholder.com/150" alt="Profile" class="rounded-full mx-auto mb-2">
+                    <h2 class="font-bold text-xl">{{ user.username }}</h2>
+                </div>
+                <nav class="space-y-2">
+                    <a href="{% url 'social:dashboard' %}" class="block px-4 py-2 rounded bg-blue-50 text-blue-600">Dashboard</a>
+                    <a href="{% url 'social:profile' %}" class="block px-4 py-2 rounded hover:bg-blue-50">Profile</a>
+                    <a href="{% url 'social:friends' %}" class="block px-4 py-2 rounded hover:bg-blue-50">Friends</a>
+                    <a href="{% url 'social:messages' %}" class="block px-4 py-2 rounded hover:bg-blue-50">Messages</a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="w-full md:w-1/2 px-4 mb-4">
+            <!-- Create Post -->
+            <div class="bg-white rounded-lg shadow p-4 mb-4">
+                <form action="{% url 'social:post_create' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <textarea name="content" 
+                              class="w-full p-2 border rounded mb-2" 
+                              placeholder="What's on your mind?"
+                              rows="3"></textarea>
+                    <div class="flex justify-between items-center">
+                        <input type="file" name="image" class="text-sm">
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Post</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Posts Feed -->
+            {% for post in posts %}
+            <div class="bg-white rounded-lg shadow p-4 mb-4">
+                <div class="flex items-center mb-4">
+                    <img src="https://via.placeholder.com/40" alt="" class="rounded-full mr-2">
+                    <div>
+                        <div class="font-bold">{{ post.author.username }}</div>
+                        <div class="text-gray-500 text-sm">{{ post.created_at|timesince }} ago</div>
+                    </div>
+                </div>
+                <p class="mb-4">{{ post.content }}</p>
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="Post image" class="rounded mb-4">
+                {% endif %}
+                <div class="flex items-center text-gray-500 text-sm">
+                    <span>{{ post.likes.count }} likes</span>
+                    <span class="mx-2">•</span>
+                    <span>{{ post.comments.count }} comments</span>
+                </div>
+            </div>
+            {% empty %}
+            <div class="bg-white rounded-lg shadow p-4 mb-4 text-center text-gray-500">
+                No posts yet. Be the first to post!
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="w-full md:w-1/4 px-4 mb-4">
+            <div class="bg-white rounded-lg shadow p-4">
+                <h3 class="font-bold mb-4">Search Users</h3>
+                <form action="{% url 'social:search' %}" method="get">
+                    <input type="text" name="q" 
+                           class="w-full p-2 border rounded" 
+                           placeholder="Search users...">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

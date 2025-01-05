@@ -1,0 +1,28 @@
+{% extends 'social/base.html' %}
+
+{% block title %}Posts{% endblock %}
+
+{% block content %}
+<div class="grid gap-6">
+    {% for post in posts %}
+        <div class="bg-white p-6 rounded-lg shadow">
+            <div class="flex items-center mb-4">
+                <span class="font-bold">{{ post.author.username }}</span>
+                <span class="text-gray-500 ml-2">{{ post.created_at|timesince }} ago</span>
+            </div>
+            <p class="mb-4">{{ post.content }}</p>
+            {% if post.image %}
+                <img src="{{ post.image.url }}" alt="Post image" class="mb-4 rounded">
+            {% endif %}
+            <div class="flex items-center text-gray-500">
+                <span>{{ post.likes.count }} likes</span>
+                <span class="mx-2">•</span>
+                <span>{{ post.comments.count }} comments</span>
+                <a href="{% url 'social:post_detail' post.pk %}" class="ml-auto text-blue-500">View Details</a>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-center text-gray-500">No posts yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}
