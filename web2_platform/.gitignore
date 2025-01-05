@@ -25,7 +25,6 @@ ENV/
 *.log
 *.pot
 *.pyc
-db.sqlite3
 media/
 static/
 local_settings.py
@@ -41,8 +40,7 @@ local_settings.py
 .idea_modules/
 
 # Database
-*.sqlite3
-*.db
+
 
 # Environment variables
 .env
@@ -54,9 +52,6 @@ media/
 uploads/
 
 # Static files
-staticfiles/
-static/admin/
-static/rest_framework/
 
 # macOS
 .DS_Store
