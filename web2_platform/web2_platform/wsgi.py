@@ -13,4 +13,5 @@ from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'web2_platform.settings')
 
+# Initialize Django WSGI application early to ensure the app is loaded
 application = get_wsgi_application()

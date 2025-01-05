@@ -8,9 +8,16 @@
   ],
   "routes": [
       {
+          "src": "/static/(.*)",
+          "dest": "/static/$1"
+      },
+      {
           "src": "/(.*)",
           "dest": "web2_platform/wsgi.py"
       }
   ],
-  "installCommand": "python -m pip install --upgrade pip"
+  "env": {
+      "DJANGO_SETTINGS_MODULE": "web2_platform.settings",
+      "PYTHONPATH": "."
+  }
 }
