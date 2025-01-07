@@ -36,8 +36,8 @@ ALLOWED_HOSTS = [
     '.circumeo.io',
     'localhost',
     '127.0.0.1',
-    'onrender.com'
-    '.stephanienwankwo.com'
+    'socialfare.onrender.com',   
+    'socialfare.stephanienwankwo.com'
 ]
 CSRF_TRUSTED_ORIGINS = [
     'https://socialfare.onrender.com',  # Add this line
